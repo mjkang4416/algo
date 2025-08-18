@@ -1,0 +1,42 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class TheLawOfLargeNumbers {
+    public static void main(String[] args) {
+        // N : 배열개수 , M : 몇번 더할지, K : 연속해서 더할 수 있는 인덱스 개수
+        // 입력으로 주어지는 K는 항상 M보다 작거나 같다.
+        // 특정 인덱스에 해당하는 수가 연속해서 k 번을 초과하여 더해질 수 없다, 즉 한번은 다른수 써야함
+
+        // 가장 큰수와 그 다음 수반 번갈아가며 더하면 됨
+        Scanner sc = new Scanner(System.in);
+
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int K = sc.nextInt();
+
+        int resultNum = 0;
+
+        int[] numbers = new int [N];
+
+        // number 배열 할당 
+        for (int i = 0; i < N; i++) {
+            numbers[i] = sc.nextInt();
+        }
+
+        Arrays.sort(numbers);    //정렬
+
+        int firstNum = numbers[N-1]; //첫번째로 큰 수
+        int secondNum = numbers[N-2]; //두번째로 큰 수
+
+        //첫번째 개수구하기
+        int count = M/(K+1)*K;
+        count+= M%(K+1);
+
+        resultNum += count*firstNum;
+        resultNum += (M-count)*secondNum;
+
+        System.out.println(resultNum);
+
+    }
+
+}
