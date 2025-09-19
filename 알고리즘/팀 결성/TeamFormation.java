@@ -74,10 +74,10 @@ public class TeamFormation {
         int parentB = find(b);
 
         if(parentA < parentB){
-            parents[b] = parents[a];
+            parents[parentB] = parentA;
         }
         else{
-            parents[a] = parents[b];
+            parents[parentA] = parentB;
         }
     }
 }
