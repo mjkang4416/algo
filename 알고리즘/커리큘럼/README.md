@@ -62,3 +62,11 @@
 너무 많은 코드가 나와서 엥.. ? 하고 백 한뒤 찾아 보니까 ArrayList 가 큐를 구현하고 있었던 것 …. wow…. ㅈㅂ
 
 심지어 ArrayList 는 디큐룰 구현하고 dequeue 가 queue 를 상속받아서 구현하는 구조다 … 추상화 그만해 ..
+
++ `*time*.clone()` 자바에선 이게 deep copy 라고 함 
+
++ `for(int i=0; i<*N*+1; i++){    *arr*.add(new ArrayList<>());}` 
+
+ArrayList<ArrayList<>> 를 쓸때 [ [] , [] , []  ]  는 만들어 놓고 ( add 해놓고 ) arr.get(0).add() 를 해야함을
+
+ 잊지 말자.
