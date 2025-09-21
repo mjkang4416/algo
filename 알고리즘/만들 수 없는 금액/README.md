@@ -19,8 +19,6 @@
 
 ## 소감
 
-![IMG_6481.HEIC](attachment:803cb172-ee18-4f05-a50b-507ac2c0ac86:752b14ff-b411-48d9-8f8a-8a3c896a5f38.png)
-
 ![Uploading IMG_6481.png…]()
 
 
