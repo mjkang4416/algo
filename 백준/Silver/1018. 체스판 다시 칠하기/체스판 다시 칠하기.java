@@ -1,20 +1,15 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+public class RepaintChessboard {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+        int M = sc.nextInt();
         char[][] arr = new char[N][M];
         int result = 999999999;
 
         for(int i =0; i<N; i++){
-            String line = br.readLine();
+            String line = sc.next();
             for(int j=0; j<M; j++){
                 arr[i][j] = line.charAt(j);
             }
