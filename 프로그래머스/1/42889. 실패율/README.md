@@ -112,3 +112,31 @@
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
+
+# 소감
+
+저도이제 카카오 1은 푼다구요 ~ 자잘하게 실패가 나오면 놓친 조건이 없는지 확인하자 !! 이번에도 문제에서 조건
+
+을 하나 놓쳐서 애매하게 성공이 떴었다. 나머지는 무난했다. 단계별 머물러 있는 사람 수를 binarySearch 로 구하
+
+고 스테이지별 도전자 수를 구해 준 다음 → 스테이지 마다 실패율을 구해준다. 
+
+- 나눌때 실수 신경쓰자.
+- 확률 구할때는 실수 날아가면 안됨. 그냥 0 으로 다 날아감
+- double 비교는 compare 객체로
+
+```java
+resultStage.sort((o1,o2)-> {
+            if(o1.failPerc == o2.failPerc){
+                return o1.stage - o2.stage; 
+            }   
+            return Double.compare(o2.failPerc, o1.failPerc);
+        });
+        
+        return resultStage.stream().mapToInt(o1->o1.stage).toArray();
+    }
+```
+
+- 객체 List 일 경우 해당객체.sort 로 → 람다 임으로 그냥 함수처럼 리턴 값 주면 된다.
+- 일반 int[] 일 경우 Arrays.sort(arr, (a,b) →{ }) 로
+- stream() 으로 값 하나씩 가져와서 객체를 matToInt() 로 int 형으로 바꿔서 .toArray() 에 담아준다.
