@@ -1,6 +1,6 @@
 # [level 1] 실패율 - 42889 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42889) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42889?gad_source=1&gad_campaignid=22799790467&gbraid=0AAAAAC_c4nBf6aih4kkpPyl2Pc9RDvuIo&gclid=Cj0KCQjwgpzIBhCOARIsABZm7vHSixVxGKYj3qzyTZHmVk1hzK5x2rps8Dj6Oo4i9O6o837Uno8ZZzMaAup7EALw_wcB) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 11월 08일 12:53:07
+2025년 11월 08일 12:53:50
 
 ### 문제 설명
 

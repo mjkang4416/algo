@@ -28,9 +28,9 @@ class Solution {
         stagePeopleNum = new int[N]; //각 스테이지 머무는 사람수 
         challange = new int[N]; //각 스테이지 도전자 수 
         
-        //각 스테이지 만큼 돈다. 
+        //각 스테이지 머무른 사람수 계산
         for(int i =0; i<N; i++){
-            int result = bfs(0,stage.length-1,i+1); //스테이지 도전 한 사람 수만큼 binarySearch
+            int result = bfs(0,stage.length-1,i+1,0);
             stagePeopleNum[i] = result; 
         }
         
@@ -40,15 +40,9 @@ class Solution {
         
         //실패율 계산 -> resultStage 에 넣기 
         for(int i=0; i<N; i++){
-            if(stagePeopleNum[i] == 0){
-                resultStage.add(new Stage(i+1,0));
-            }
-            else{
-            resultStage.add(new Stage(i+1,
-                                      (double)stagePeopleNum[i]/challange[i]));
-            }
-           
-         }
+            resultStage.add(new Stage(i+1,(double)stagePeopleNum[i]/challange[i]));
+        }
+        
         //내림차순 정렬 -> 같은경우 작은 번호 스테이지 순
         resultStage.sort((o1,o2)-> {
             if(o1.failPerc == o2.failPerc){
@@ -57,29 +51,34 @@ class Solution {
             return Double.compare(o2.failPerc, o1.failPerc);
         });
         
+        // int[] answer = {};
         return resultStage.stream().mapToInt(o1->o1.stage).toArray();
     }
     
      //클리어 못한 사람수 구하기 
-    public int bfs(int start, int end, int target){
+    public int bfs(int start, int end, int target,int stageResult){
         
         int mid = (start+end)/2; 
         
         //탐색 끝낸 경우 
         if(start > end){
-            return 0; 
+            return stageResult; 
         }
         
         //target 이 mid 와 일치하는 경우 
         if(stage[mid] == target){
-            return 1+ bfs(mid+1,end,target) + bfs(start,mid-1,target);
+            stageResult++; 
+            bfs(mid+1,end,target,stageResult);
+            bfs(start,mid-1,target,stageResult); 
         }
         else if(stage[mid] > target){
-             return bfs(start,mid-1,target); 
+             bfs(start,mid-1,target,stageResult); 
         }
         else{
-              return bfs(mid+1,end,target);
+            bfs(mid+1,end,target,stageResult);
         }
+        
+        return stageResult;
     }
     
     //각 스테이지 도전자 수 계산 
