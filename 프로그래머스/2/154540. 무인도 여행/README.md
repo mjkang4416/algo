@@ -83,3 +83,18 @@
 
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://school.programmers.co.kr/learn/challenges
+>
+## 소감
+
+그냥 명확한 bfs 였는데 .. nx = x + dx[i] 여기를 y 라고 오타를 내서 한~ 참 걸렸다. 이후에도  잡지 못한 논리가 있어서 명확한 문제 임에도 불구하고 꽤 걸렸던 것 같다. 
+
+1. if map_list[x][y] == 'X':
+            continue 
+
+이게 넣을때 map_list[nx][ny]!='X' 로 방어가 된다고 생각했는데 생각해보니 탐색시 같은 자리가 2번 들어가게 되면 이미 하
+    
+    나가 X가 된 상태에서 pop 되기 때문에 문제가 생긴다 !
+    
+     (visited 배열을 쓸거면 visited 검사 역시 앞에서 해 줘야 할듯 , 아니면 들어올때 X 처리를 해버려서 중복으로 들어오지 못하게 막던지) 
+    
+2. map_list = [list(row) for row in maps] list(row) 를 하면 “1234” 로 들어온 row 행이 “2” ,”3” 이렇게 쪼개 진다고 한다.  문자열 list 로 바꿀때 사용할것.
