@@ -33,6 +33,7 @@ for i in range(t):
                             dic.pop(temp)
                     if hq_a:
                         dic[hq_a[0]]-=1 #삭제할 값이 있는 경우
+                        heapq.heappop(hq_a)
                 else:
                     while hq_d and (-hq_d[0] not in dic or dic[-hq_d[0]]<1):
                         temp = -heapq.heappop(hq_d)  # heap 에서 pop
@@ -40,6 +41,7 @@ for i in range(t):
                             dic.pop(temp)
                     if hq_d:
                         dic[-hq_d[0]] -= 1  # 삭제할 값이 있는 경우
+                        heapq.heappop(hq_d)
 
     if len(dic) :
         valid_key = [k for k in dic.keys() if dic[k]>0]
