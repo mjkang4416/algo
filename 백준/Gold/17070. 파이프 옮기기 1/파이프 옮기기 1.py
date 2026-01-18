@@ -4,54 +4,18 @@ input = sys.stdin.readline
 
 n = int(input())
 arr = [list(map(int, input().split())) for _ in range(n)]
-cnt = 0
 
+dp= [[[0]*n for _ in range(n)] for _ in range(3)]
+dp[0][0][1] =1 #가로로 올때 x,y
+for i in range(2,n):
+    if arr[0][i] == 0: #첫줄은 가로 밀기만 가능
+        dp[0][0][i] = dp[0][0][i-1]
 
-def to_row(x2,y2):
-    if x2 + 1 < n and arr[x2 + 1][y2] == 0 :
-        dfs(x2, y2, x2 + 1, y2)
-    return
-
-# 가로이동
-def to_column(x2,y2):
-    if y2 + 1 < n and arr[x2][y2 + 1] == 0 :
-        dfs(x2, y2, x2, y2 + 1)
-    return
-
-
-def to_side(x2,y2):
-    if y2 + 1 < n and x2 + 1 < n and arr[x2 + 1][y2 + 1] == 0:
-        if  arr[x2][y2 + 1] == 0 and arr[x2 + 1][y2] == 0:
-            dfs(x2, y2, x2 + 1, y2 + 1)
-    return
-
-
-def dfs(x1, y1, x2, y2):
-    global cnt
-    if x2 == (n-1) and y2 == (n-1):
-        cnt += 1
-        return
-
-    #가로인경우
-    if x1 == x2 and y1 != y2:
-        #가로이동
-        to_column(x2,y2)
-        #대각선이동
-        to_side(x2, y2)
-    #세로인경우
-    if x1 != x2 and y1 == y2:
-        # 세로이동
-        to_row(x2, y2)
-        # 대각선이동
-        to_side(x2, y2)
-    #대각선인 경우
-    if x1 != x2 and y1 != y2:
-        # 가로이동
-        to_column(x2, y2)
-        # 세로이동
-        to_row(x2, y2)
-        # 대각선이동
-        to_side(x2, y2)
-
-dfs(0,0,0,1)
-print(cnt)
+for i in range(1,n):
+    for j in range(1,n):
+        if arr[i][j] == 0 and arr[i][j-1] ==0 and arr[i-1][j]== 0:
+            dp[2][i][j] = dp[1][i-1][j-1] + dp[2][i-1][j-1] +dp[0][i-1][j-1]
+        if arr[i][j] == 0:
+            dp[0][i][j] = dp[0][i][j-1] +dp[2][i][j-1]
+            dp[1][i][j] = dp[1][i - 1][j] + dp[2][i - 1][j]
+print(dp[0][n - 1][n - 1] + dp[1][n - 1][n - 1] + dp[2][n - 1][n - 1])
