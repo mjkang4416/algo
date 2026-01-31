@@ -1,6 +1,5 @@
 import sys
 from collections import deque
-import copy
 input = sys.stdin.readline
 
 n,m = map(int,input().split())
@@ -9,9 +8,8 @@ arr = [list(map(int,input().split())) for _ in range(n)]
 
 dx = [-1,1,0,0]
 dy = [0,0,-1,1]
-
+answer = float('inf')
 zero_arr= []
-comi_arr = []
 tow_arr = []
 one_num = 0
 
@@ -24,22 +22,25 @@ for i in range(n):
         if arr[i][j] == 1:
             one_num += 1
 
-def combination(cnt,start,temp):
-    if cnt ==3:
-        comi_arr.append(list(temp))
+def combination(cnt,start):
+    global answer
+    if cnt ==3: #3개가 다 1이 되면 bfs 호출
+        answer = min(bfs(),answer)
         return
 
     for i in range(start,len(zero_arr)):
-        temp.append(zero_arr[i])
-        combination(cnt+1,i+1,temp)
-        temp.pop()
+        arr[zero_arr[i][0]][zero_arr[i][1]] = 1 #여기서 1로 만들어놓고
+        combination(cnt+1,i+1)
+        arr[zero_arr[i][0]][zero_arr[i][1]] = 0
 
-combination(0,0,[])
 
-def bfs(x,y,visited):
+def bfs():
     q = deque()
-    global two_num
-    q.append((x,y)) #시작점2 에서 퍼지는거
+    visited = [[False] * m for _ in range(n)]
+    two_num = 0
+    for x,y in tow_arr:
+        two_num+=1
+        q.append((x,y)) #어짜피 visited 로 체크 해주기 때문에 한번에 넣어도 상관없음
     while q:
         x,y= q.pop()
         for i in range(4):
@@ -49,18 +50,7 @@ def bfs(x,y,visited):
                 visited[nx][ny] = True
                 two_num+=1
                 q.append((nx,ny))
+    return two_num
 
-answer = float('inf')
-for zero in comi_arr : #111 넣는 경우의수 반복
-    for i in range(3):
-        arr[zero[i][0]][zero[i][1]] =1
-    two_num = 0
-    visited = [[False] * m for _ in range(n)]
-    for two in tow_arr: #2 퍼짐
-        two_num+=1
-        visited[two[0]][two[1]] = True
-        bfs(two[0],two[1],visited)
-    answer=min(answer,two_num)
-    for i in range(3):
-        arr[zero[i][0]][zero[i][1]] = 0
+combination(0,0)
 print(n*m-answer-one_num-3) #전체에서 2 개수 빼고,1개수 뺀거
