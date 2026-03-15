@@ -1,115 +1,111 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+/******************************************************************************
 
-public class Main {
-    static int N;
-    static int M;
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
 
-    static int[] dx = {1,-1,0,0};
-    static int[] dy = {0,0,1,-1};
+*******************************************************************************/
+import java.util.*; 
+import java.io.*; 
 
-    static int[][] map;
-    static int [][] copyMap;
+public class Main
+{
+    static int[][] arr; 
+    static int n,m,result; 
+    static List<int[]> zero; 
+    static int[] dx = {-1,1,0,0};
+    static int[] dy = {0,0,-1,1};
+    
+	public static void main(String[] args) throws IOException{
+		//벽 3개 세운 뒤 안전영역의 크기를 구해야 함
+		
+		//배열 만들기
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(bf.readLine()); 
+		
+		n = Integer.parseInt(st.nextToken()); 
+		m = Integer.parseInt(st.nextToken()); 
+		zero = new ArrayList<>(); 
+		arr = new int[n][m]; 
+		result =0; 
+		
+		
+		
+		for(int i=0; i<n; i++){
+		    st = new StringTokenizer(bf.readLine());
+		    for(int j=0; j<m; j++){
+		        arr[i][j] = Integer.parseInt(st.nextToken()); 
+		         //0인 좌표구하기
+		        if(arr[i][j]==0){
+		            zero.add(new int[]{i,j}); 
+		        }
+		    }
+		}
+		
+		//벽 세울 수 있는 경우의 수 구하기
+	    combi(0,0); 
+		    
+		System.out.println(result); 
+	}
 
-    static int maxSafetyRoom = Integer.MIN_VALUE;
-    public static Queue<Virus> qu = new LinkedList<Virus>();
-
-     static class Virus{
-        int x;
-        int y;
-
-         Virus(int x, int y){
-             this.x = x;
-             this.y = y;
-         }
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-
-        N = Integer.parseInt(st.nextToken());
-        M = Integer.parseInt(st.nextToken());
-
-        map = new int[N][M];
-
-        for(int i =0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
-            for(int j =0; j<M; j++){
-                map[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
-
-        def(0,0);
-        System.out.println(maxSafetyRoom);
-    }
-
-    public static void def(int wallCount , int start){ //dfs 로 조합을 구현한것.
-        if(wallCount==3){ //백 3개를 다 세웠을때
-            bfs(); //bfs 로 전파 검사
-            return;
-        }
-        for(int i =start; i< N*M; i++){ //2차원 배열 평탄화 -> 조합 구성
-            int r = i / M, c = i % M;
-                if(map[r][c] == 0){
-                    map[r][c] = 1;
-                    def(wallCount+1, start+1);
-                    map[r][c] = 0;
-                }
-        }
-    }
-
-    public static void bfs(){ //bfs 로 바이러스 전파
-        for(int i =0; i<N; i++){ //큐에 바이러스 삽입
-            for(int j =0; j<M; j++){
-                if(map[i][j]==2){
-                    qu.add(new Virus(i,j));
-                }
-            }
-        }
-
-        copyMap = new int[N][M];
-
-        for(int i =0; i<N; i++){
-            copyMap[i] = map[i].clone();
-        }
-
-
-        while (!qu.isEmpty()){
-            Virus v = qu.poll();
-
-            for(int i=0; i<4; i++){
-                int nx = v.x+ dx[i];
-                int ny = v.y + dy[i];
-
-                if(nx>=0 && ny>=0&& nx<N && ny<M){
-                    if(copyMap[nx][ny]==0){
-                        copyMap[nx][ny]= 2;
-                        qu.add(new Virus(nx,ny));
-                    }
-                }
-
-            }
-
-        }
-
-        stfeZone(copyMap);
-    }
-    static void stfeZone(int[][] copyMap){
-         int safeCount = 0;
-         for(int i =0; i<N; i++){
-             for(int j =0; j<M; j++){
-                 if(copyMap[i][j]==0){
-                     safeCount++;
-                 }
-             }
-         }
-         maxSafetyRoom = Math.max(safeCount,maxSafetyRoom);
-    }
-
-
+	public static void combi(int start,int cnt){
+	    if(cnt==3){
+	        //안전영역의 크기 구하기 
+	        bfs();
+	        return ;
+	    }
+	    
+	    for(int i=start; i<zero.size(); i++){
+	        int[] now = zero.get(i); 
+	        int a = now[0];
+	        int b = now[1]; 
+	        arr[a][b] = 1;
+	        combi(i+1,cnt+1); 
+	        arr[a][b] = 0; 
+	    }
+	}
+	
+	public static void bfs(){
+	    Deque<int[]> q = new ArrayDeque<>();
+	    for(int i=0; i<n; i++){
+	        for(int j=0; j<m; j++){
+	            if(arr[i][j]==2){
+	                q.add(new int[]{i,j}); 
+	            }
+	        }
+	    }
+	    int[][] copyArr = new int[n][m];
+	    for(int i=0; i<n; i++){
+	        copyArr[i] = arr[i].clone(); 
+	    }
+	    
+	    while(!q.isEmpty()){
+	        int[] now = q.poll(); 
+	        int x = now[0];
+	        int y = now[1]; 
+	        
+	        for(int i=0; i<4; i++){
+	            int nx = x+dx[i]; 
+	            int ny = y+dy[i];
+	            if(nx>=0 && nx<n && ny>=0 && ny<m && copyArr[nx][ny]==0){
+	                copyArr[nx][ny]=2;
+	                q.add(new int[]{nx,ny}); 
+	            }
+	        }
+	    }
+	    
+	    cntzero(copyArr); 
+	}
+	
+	public static void cntzero(int[][] copyArr){
+	    int cnt=0; 
+	    for(int i=0; i<n; i++){
+	        for(int j=0; j<m; j++){
+	            if(copyArr[i][j]==0){
+	                cnt++; 
+	            }
+	        }
+	    }
+	    result = Math.max(result,cnt); 
+	}
 }
